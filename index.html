@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Proforma Invoice Pro</title>
+
+  <link rel="stylesheet" href="style.css" />
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div>
+          <span class="app-badge">PROFORMA INVOICE PRO</span>
+          <h1>Yeni Proforma</h1>
+        </div>
+
+        <div class="header-actions">
+          <button id="clearFormBtn" class="btn-light" type="button">Temizle</button>
+          <button id="downloadPdfBtn" class="btn-dark" type="button">PDF İndir</button>
+        </div>
+      </div>
+
+      <nav class="tabs">
+        <button class="tab-btn active" type="button" data-tab="general">Temel</button>
+        <button class="tab-btn" type="button" data-tab="parties">Taraflar</button>
+        <button class="tab-btn" type="button" data-tab="products">Ürünler</button>
+        <button class="tab-btn" type="button" data-tab="extras">Ekler</button>
+      </nav>
+
+      <section class="tab-content active" id="general">
+        <div class="card">
+          <div class="card-header">
+            <h3>Temel Bilgiler</h3>
+          </div>
+
+          <label for="logoInput">Logo</label>
+          <input id="logoInput" type="file" accept="image/*" />
+          <div id="logoMiniPreview">Logo önizleme</div>
+
+          <div class="grid-2">
+            <div>
+              <label for="invoiceNo">Proforma No</label>
+              <input id="invoiceNo" type="text" />
+            </div>
+
+            <div>
+              <label for="invoiceDate">Tarih</label>
+              <input id="invoiceDate" type="date" />
+            </div>
+
+            <div>
+              <label for="validDate">Geçerlilik Tarihi</label>
+              <input id="validDate" type="date" />
+            </div>
+
+            <div>
+              <label for="currency">Para Birimi</label>
+              <select id="currency">
+                <option>₺ TRY</option>
+                <option>$ USD</option>
+                <option>€ EUR</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="tab-content" id="parties">
+        <div class="card">
+          <div class="card-header">
+            <h3>Taraf Bilgileri</h3>
+          </div>
+
+          <label for="sellerInfo">Satıcı Bilgileri</label>
+          <textarea id="sellerInfo" placeholder="Firma adı, adres, telefon, e-posta..."></textarea>
+
+          <label for="buyerInfo">Alıcı Bilgileri</label>
+          <textarea id="buyerInfo" placeholder="Alıcı adı, adres, vergi bilgisi, e-posta..."></textarea>
+        </div>
+      </section>
+
+      <section class="tab-content" id="products">
+        <div class="card">
+          <div class="card-header">
+            <h3>Ürünler</h3>
+            <button id="addProductBtn" class="btn-dark" type="button">+ Ürün</button>
+          </div>
+
+          <div id="productList"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Seçili Ürün</h3>
+          </div>
+
+          <label for="productImage">Ürün Görseli</label>
+          <input id="productImage" type="file" accept="image/*" />
+          <div id="imagePreview">Görsel önizleme</div>
+
+          <div class="grid-2">
+            <div>
+              <label for="productName">Ürün Adı</label>
+              <input id="productName" type="text" />
+            </div>
+
+            <div>
+              <label for="productBrand">Marka</label>
+              <input id="productBrand" type="text" />
+            </div>
+
+            <div>
+              <label for="productOrigin">Menşei</label>
+              <input id="productOrigin" type="text" />
+            </div>
+
+            <div>
+              <label for="productQty">Miktar</label>
+              <input id="productQty" type="number" />
+            </div>
+          </div>
+
+          <label for="productPrice">Birim Fiyat</label>
+          <input id="productPrice" type="number" />
+
+          <label for="productDesc">Açıklama</label>
+          <textarea id="productDesc" placeholder="Ölçü, model, teknik detay..."></textarea>
+
+          <div class="product-actions">
+            <button id="duplicateProductBtn" type="button">Kopyala</button>
+            <button id="deleteProductBtn" type="button">Sil</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="tab-content" id="extras">
+        <div class="card">
+          <div class="card-header">
+            <h3>Ek Alanlar</h3>
+          </div>
+
+          <div class="toggle-list">
+            <label><input id="showVat" type="checkbox" /> KDV</label>
+            <label><input id="showDiscount" type="checkbox" /> İskonto</label>
+            <label><input id="showExpense" type="checkbox" /> Ek Gider</label>
+            <label><input id="showAdvance" type="checkbox" /> Kaparo</label>
+            <label><input id="showBank" type="checkbox" /> Banka Bilgileri</label>
+            <label><input id="showWebsite" type="checkbox" /> Web Site Alanı</label>
+            <label><input id="showNotes" type="checkbox" /> Genel Bilgilendirme</label>
+            <label><input id="showSignature" type="checkbox" /> İmza Alanı</label>
+          </div>
+        </div>
+
+        <div class="card optional-field" data-optional="vat">
+          <h4>KDV</h4>
+          <label for="vatRate">KDV Oranı (%)</label>
+          <input id="vatRate" type="number" />
+        </div>
+
+        <div class="card optional-field" data-optional="discount">
+  <h4>İskonto</h4>
+
+  <label for="discountType">İskonto Tipi</label>
+  <select id="discountType">
+    <option value="amount">Tutar</option>
+    <option value="percent">Yüzde (%)</option>
+  </select>
+
+  <label for="discountAmount">İskonto Değeri</label>
+  <input id="discountAmount" type="number" />
+</div>
+
+        <div class="card optional-field" data-optional="expense">
+          <h4>Ek Gider</h4>
+          <label for="expenseName">Gider Adı</label>
+          <input id="expenseName" type="text" />
+
+          <label for="expenseAmount">Gider Tutarı</label>
+          <input id="expenseAmount" type="number" />
+        </div>
+
+        <div class="card optional-field" data-optional="advance">
+          <h4>Kaparo</h4>
+          <label for="advanceAmount">Kaparo Tutarı</label>
+          <input id="advanceAmount" type="number" />
+        </div>
+
+        <div class="card optional-field" data-optional="bank">
+          <h4>Banka Bilgileri</h4>
+
+          <div class="grid-2">
+            <div>
+              <label for="bankName">Banka Adı</label>
+              <input id="bankName" type="text" />
+            </div>
+
+            <div>
+              <label for="accountName">Hesap Adı</label>
+              <input id="accountName" type="text" />
+            </div>
+
+            <div>
+              <label for="branchName">Şube Adı</label>
+              <input id="branchName" type="text" />
+            </div>
+
+            <div>
+              <label for="swiftCode">Swift Kodu</label>
+              <input id="swiftCode" type="text" />
+            </div>
+          </div>
+
+          <label for="accountNo">Hesap No</label>
+          <input id="accountNo" type="text" />
+
+          <label for="ibanTry">IBAN (₺)</label>
+          <input id="ibanTry" type="text" />
+
+          <label for="ibanUsd">IBAN ($)</label>
+          <input id="ibanUsd" type="text" />
+
+          <label for="ibanEur">IBAN (€)</label>
+          <input id="ibanEur" type="text" />
+        </div>
+
+        <div class="card optional-field" data-optional="website">
+          <h4>Web Site Alanı</h4>
+          <label for="websiteArea">Web Site / Marka Linkleri</label>
+          <textarea id="websiteArea"></textarea>
+        </div>
+
+        <div class="card optional-field" data-optional="notes">
+          <h4>Genel Bilgilendirme</h4>
+          <label for="notesText">Bilgilendirme Metni</label>
+          <textarea id="notesText"></textarea>
+        </div>
+
+        <div class="card optional-field" data-optional="signature">
+          <h4>İmza Alanı</h4>
+          <label for="preparedBy">Teklifi Hazırlayan</label>
+          <input id="preparedBy" type="text" />
+        </div>
+      </section>
+    </aside>
+
+    <main class="preview-wrapper">
+      <div class="preview-toolbar">
+        <span>Canlı A4 Önizleme</span>
+
+        <div>
+          <button id="zoomPreviewBtn" class="btn-dark" type="button">Yakınlaştır</button>
+          <button id="downloadPdfBtnTop" class="btn-dark" type="button">PDF İndir</button>
+        </div>
+      </div>
+
+      <div id="pdfArea">
+        <div id="pdfPages"></div>
+      </div>
+    </main>
+  </div>
+
+  <!-- 1. SAYFA TEMPLATE -->
+  <template id="firstPageTemplate">
+    <section class="a4-page first-page">
+      <header class="invoice-header">
+        <div class="logoPreview">LOGO</div>
+
+        <div class="invoice-title">
+          <h2>PROFORMA FATURA</h2>
+          <p>Teklif / Ön Bilgilendirme Belgesi</p>
+        </div>
+
+        <div class="invoiceInfoPreview invoice-info"></div>
+      </header>
+
+      <section class="party-area">
+        <div class="sellerPreview party-box"></div>
+        <div class="buyerPreview party-box"></div>
+      </section>
+
+      <section class="productsPreview products-preview"></section>
+
+      <section class="websitePreview website-preview"></section>
+      <section class="bankPreview bank-preview"></section>
+
+      <section class="bottom-area">
+        <div class="notesPreview notes-preview"></div>
+        <div class="totalsPreview totals-preview"></div>
+      </section>
+
+      <section class="signaturePreview signature-preview"></section>
+
+      <footer class="footer">
+        <div>Bu belge elektronik ortamda hazırlanmıştır.</div>
+        <div>Proforma Invoice Pro</div>
+        <div class="pageNumber">Sayfa 1 / 1</div>
+      </footer>
+    </section>
+  </template>
+
+  <!-- DEVAM SAYFASI TEMPLATE -->
+  <template id="continuationPageTemplate">
+    <section class="a4-page continuation-page">
+      <section class="productsPreview products-preview"></section>
+
+      <section class="websitePreview website-preview"></section>
+      <section class="bankPreview bank-preview"></section>
+
+      <section class="bottom-area">
+        <div class="notesPreview notes-preview"></div>
+        <div class="totalsPreview totals-preview"></div>
+      </section>
+
+      <section class="signaturePreview signature-preview"></section>
+
+      <footer class="footer">
+        <div>Bu belge elektronik ortamda hazırlanmıştır.</div>
+        <div>Proforma Invoice Pro</div>
+        <div class="pageNumber">Sayfa 1 / 1</div>
+      </footer>
+    </section>
+  </template>
+
+<div class="calculator-toggle" id="calculatorToggle">
+    HESAPLAMA
+</div>
+
+<div class="calculator-panel" id="calculatorPanel">
+
+    <div class="tool-header">
+        <h3>Hesaplama Araçları</h3>
+        <button id="calcClose">✕</button>
+    </div>
+
+    <div class="tool-tabs">
+        <button class="tool-tab active" data-tab="kdv">KDV</button>
+        <button class="tool-tab" data-tab="discount">İskonto</button>
+        <button class="tool-tab" data-tab="currency">Kur</button>
+        <button class="tool-tab" data-tab="calc">Hesap</button>
+    </div>
+
+    <div class="tool-content">
+
+        <div class="tool-page active" id="kdvPage">
+            <label>Tutar</label>
+            <input type="number" id="kdvAmount">
+
+            <label>KDV (%)</label>
+            <input type="number" id="kdvRate" value="20">
+
+            <button id="kdvBtn">Hesapla</button>
+
+            <div class="tool-result" id="kdvResult"></div>
+        </div>
+
+        <div class="tool-page" id="discountPage">
+            <label>Tutar</label>
+            <input type="number" id="discountBase">
+
+            <label>İskonto (%)</label>
+            <input type="number" id="discountRate">
+
+            <button id="discountBtn">Hesapla</button>
+
+            <div class="tool-result" id="discountResult"></div>
+        </div>
+
+        <div class="tool-page" id="currencyPage">
+            <label>Tutar</label>
+            <input type="number" id="currencyAmount">
+
+            <label>Kur</label>
+            <input type="number" id="currencyRate">
+
+            <button id="currencyBtn">Çevir</button>
+
+            <div class="tool-result" id="currencyResult"></div>
+        </div>
+
+        <div class="tool-page" id="calcPage">
+
+            <input type="text" id="calcDisplay" readonly>
+
+            <div class="calc-buttons">
+
+                <button onclick="calcClear()">C</button>
+                <button onclick="calcAdd('/')">÷</button>
+                <button onclick="calcAdd('*')">×</button>
+                <button onclick="calcAdd('-')">−</button>
+
+                <button onclick="calcAdd('7')">7</button>
+                <button onclick="calcAdd('8')">8</button>
+                <button onclick="calcAdd('9')">9</button>
+                <button onclick="calcAdd('+')">+</button>
+
+                <button onclick="calcAdd('4')">4</button>
+                <button onclick="calcAdd('5')">5</button>
+                <button onclick="calcAdd('6')">6</button>
+                <button onclick="calcResult()">=</button>
+
+                <button onclick="calcAdd('1')">1</button>
+                <button onclick="calcAdd('2')">2</button>
+                <button onclick="calcAdd('3')">3</button>
+                <button onclick="calcAdd('.')">.</button>
+
+                <button onclick="calcAdd('0')" class="zero-btn">0</button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  
+  <script src="script.js"></script>
+</body>
+</html>

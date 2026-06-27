@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proforma Invoice Pro - Giriş</title>
+
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+
+    <div class="login-wrapper">
+
+        <div class="login-left">
+
+            <div class="brand-badge">
+                PROFORMA INVOICE PRO
+            </div>
+
+            <h1>
+                Profesyonel Teklif ve
+                Proforma Yönetimi
+            </h1>
+
+            <p>
+                Tekliflerinizi oluşturun, yönetin ve güvenli şekilde saklayın.
+            </p>
+
+        </div>
+
+        <div class="login-card">
+
+            <div class="card-header">
+
+                <h2>Hoş Geldiniz</h2>
+
+                <p>
+                    Hesabınıza giriş yapın veya yeni hesap oluşturun.
+                </p>
+
+            </div>
+
+            <div class="form-group">
+                <label>E-Posta</label>
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="ornek@mail.com"
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Şifre</label>
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="********"
+                >
+            </div>
+
+            <button id="loginBtn" class="btn-primary">
+                Giriş Yap
+            </button>
+
+            <button id="registerBtn" class="btn-secondary">
+                Hesap Oluştur
+            </button>
+
+            <button id="resetBtn" class="btn-link">
+                Şifremi Unuttum
+            </button>
+
+            <div id="authMessage"></div>
+
+        </div>
+
+    </div>
+
+    <script type="module" src="login.js"></script>
+
+</body>
+</html>
