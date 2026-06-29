@@ -260,6 +260,7 @@
         <div>
           <button id="zoomPreviewBtn" class="btn-dark" type="button">Yakınlaştır</button>
           <button id="downloadPdfBtnTop" class="btn-dark" type="button">PDF İndir</button>
+          <button id="saveProformaBtn" class="btn-save" type="button">Kaydet</button>
         </div>
       </div>
 
@@ -435,6 +436,34 @@
     <div class="clock-day" id="clockDay">Pazartesi</div>
   </div>
 </div>
+
+<button id="historyToggle" class="history-fab" type="button">
+  <span class="history-fab-icon">📁</span>
+  <span class="history-fab-text">Geçmiş Teklifler</span>
+</button>
+
+<div id="historyPanel" class="history-panel">
+  <div class="history-head">
+    <div>
+      
+      <small>PROFORMA ARŞİVİ</small>
+      <h3>Geçmiş Tekliflerim</h3>
+      <span id="historyCount">(0)</span>
+    </div>
+
+    <button id="closeHistoryPanel" type="button">✕</button>
+  </div>
+
+  <div class="history-search">
+  <input id="historySearchInput" type="text" placeholder="Proforma ara..." />
+</div>
+
+  <div id="historyList" class="history-list">
+    Henüz kayıt yok.
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
 
 <script type="module" src="script.js"></script>
 </body>

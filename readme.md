@@ -1,46 +1,61 @@
 # Proforma Invoice Pro
 
-Modern ve profesyonel teklif / proforma fatura oluşturma uygulaması.
+Modern, kullanıcı girişli ve bulut kayıt destekli teklif / proforma fatura oluşturma uygulaması.
 
 ## Özellikler
 
-* Çok sayfalı A4 proforma oluşturma
-* PDF çıktısı alma
-* Logo yükleme
-* KDV hesaplama
-* İskonto hesaplama
-* Ek gider ekleme
-* Kaparo desteği
-* Banka bilgileri alanı
-* Ürün görseli ekleme
-* LocalStorage ile otomatik kayıt
-* Dahili hesaplama araçları
-* Firebase Authentication desteği
-* Responsive ve modern arayüz
+- Çok sayfalı A4 proforma oluşturma
+- PDF çıktısı alma
+- Logo yükleme
+- Ürün görseli ekleme
+- KDV hesaplama
+- İskonto hesaplama
+- Ek gider ekleme
+- Kaparo desteği
+- Banka bilgileri alanı
+- Dahili hesaplama araçları
+- Otomatik proforma numarası
+- LocalStorage ile form verilerini koruma
+- Firebase Authentication ile giriş / kayıt sistemi
+- Firestore ile kullanıcı bazlı teklif kayıtları
+- Geçmiş teklifler paneli
+- Kayıtlı teklifleri tekrar açma
+- Kayıtlı teklifleri silme
+- Geçmiş tekliflerde arama
+- Aktif teklif vurgusu
+- Toast bildirimleri
+- Responsive ve modern arayüz
 
 ## Teknolojiler
 
-* HTML5
-* CSS3
-* JavaScript (Vanilla JS)
-* Firebase Authentication
-* html2canvas
-* jsPDF
+- HTML5
+- CSS3
+- JavaScript
+- Firebase Authentication
+- Firebase Firestore
+- html2canvas
+- jsPDF
+- html2pdf.js
 
 ## Yol Haritası
 
-* [x] Proforma oluşturma
-* [x] PDF çıktısı
-* [x] LocalStorage
-* [x] Giriş / Kayıt ekranı
-* [ ] Firestore kayıt sistemi
-* [ ] Kullanıcı bazlı proforma kayıtları
-* [ ] Bulut senkronizasyonu
-* [ ] Premium üyelik sistemi
+- [x] Proforma oluşturma
+- [x] PDF çıktısı
+- [x] LocalStorage
+- [x] Giriş / kayıt ekranı
+- [x] Firestore kayıt sistemi
+- [x] Kullanıcı bazlı proforma kayıtları
+- [x] Geçmiş teklifler paneli
+- [x] Teklif açma / silme
+- [x] Geçmiş tekliflerde arama
+- [ ] Premium üyelik sistemi
+- [ ] Ödeme entegrasyonu
+- [ ] PDF paylaşım bağlantısı
+- [ ] Firma şablonları
 
 ## Geliştirici
 
-Enes Yılmaz
+**Enes Yılmaz**
 
-GitHub:
+GitHub:  
 https://github.com/ensyilmz

@@ -1,9 +1,21 @@
-import { auth } from "./firebase.js";
+import { auth, db } from "./firebase.js";
 
 import {
   onAuthStateChanged,
   signOut
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+import {
+  collection,
+  addDoc,
+  getDocs,
+  getDoc,
+  deleteDoc,
+  doc,
+  query,
+  orderBy,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 onAuthStateChanged(auth, (user) => {
 
@@ -16,10 +28,22 @@ onAuthStateChanged(auth, (user) => {
 
 });
 
+function generateInvoiceNo() {
+  const year = new Date().getFullYear();
+
+  let lastNo = Number(localStorage.getItem("lastProformaNo") || 0);
+
+  lastNo++;
+
+  localStorage.setItem("lastProformaNo", lastNo);
+
+  return `PRF-${year}-${String(lastNo).padStart(3, "0")}`;
+}
+
 const DEFAULT_STATE = () => ({
   currency: "₺",
   logo: "",
-  invoiceNo: "PRF-2026-001",
+  invoiceNo: generateInvoiceNo(),
   invoiceDate: new Date().toISOString().slice(0, 10),
   validDate: "",
   sellerInfo: "",
@@ -71,6 +95,8 @@ const DEFAULT_STATE = () => ({
 });
 
 let state = DEFAULT_STATE();
+
+let activeHistoryId = null;
 
 const STORAGE_KEY = "proforma_invoice_state";
 function saveState() {
@@ -957,3 +983,238 @@ clockToggle?.addEventListener("click", () => {
 
 updateClock();
 setInterval(updateClock, 1000);
+
+const saveProformaBtn = document.getElementById("saveProformaBtn");
+
+if (saveProformaBtn) {
+
+  saveProformaBtn.addEventListener("click", async () => {
+
+    try {
+
+      const user = auth.currentUser;
+
+      if (!user) {
+        alert("Oturum bulunamadı");
+        return;
+      }
+
+      const totals = getTotals();
+
+      await addDoc(
+        collection(db, "users", user.uid, "proformas"),
+        {
+          invoiceNo: state.invoiceNo,
+          total: totals.grandTotal,
+          currency: state.currency,
+          createdAt: serverTimestamp(),
+          data: state
+        }
+      );
+
+      showToast("✓ Teklif başarıyla kaydedildi");
+
+      state.invoiceNo = generateInvoiceNo();
+
+const invoiceInput = document.getElementById("invoiceNo");
+if (invoiceInput) {
+  invoiceInput.value = state.invoiceNo;
+}
+
+    } catch (error) {
+
+      console.error(error);
+      alert("Kayıt sırasında hata oluştu");
+
+    }
+
+  });
+
+}
+
+const historyToggle = document.getElementById("historyToggle");
+const historyPanel = document.getElementById("historyPanel");
+const closeHistoryPanel = document.getElementById("closeHistoryPanel");
+
+if (historyToggle && historyPanel) {
+
+historyToggle.addEventListener("click", async () => {
+  historyPanel.classList.add("open");
+  await loadHistory();
+});
+
+  closeHistoryPanel?.addEventListener("click", () => {
+    
+    historyPanel.classList.remove("open");
+  });
+
+}
+
+async function loadHistory() {
+
+  if (!auth.currentUser) return;
+
+  const historyList = document.getElementById("historyList");
+
+  try {
+
+    const q = query(
+      collection(
+        db,
+        "users",
+        auth.currentUser.uid,
+        "proformas"
+      ),
+      orderBy("createdAt", "desc")
+    );
+
+    const snapshot = await getDocs(q);
+
+    const historyCount = document.getElementById("historyCount");
+
+if(historyCount){
+  historyCount.textContent = `(${snapshot.size})`;
+}
+
+    if (snapshot.empty) {
+      historyList.innerHTML = "Henüz kayıt yok.";
+      return;
+    }
+
+    let html = "";
+
+    snapshot.forEach(doc => {
+
+      const item = doc.data();
+      const customerName =
+  item.data?.buyerInfo?.split("\n")[0]?.trim() ||
+  "Müşteri belirtilmedi";
+
+html += `
+  <div class="history-item ${activeHistoryId === doc.id ? "active-history" : ""}">
+          <div class="history-title">
+            ${item.data?.invoiceNo || "Proforma"}
+          </div>
+
+          <div class="history-date">
+  ${item.data?.invoiceDate || "-"}
+</div>
+<div class="history-customer">
+  ${customerName}
+</div>
+
+          <div class="history-price">
+            ${item.currency || "₺"}${Number(item.total || 0).toLocaleString("tr-TR")}
+          </div>
+
+          <div class="history-actions">
+            <button class="history-open" data-id="${doc.id}">
+              Aç
+            </button>
+
+            <button class="history-delete" data-id="${doc.id}">
+              Sil
+            </button>
+          </div>
+        </div>
+      `;
+    });
+
+    historyList.innerHTML = html;
+
+    const historySearchInput = document.getElementById("historySearchInput");
+
+if (historySearchInput) {
+  historySearchInput.addEventListener("input", () => {
+    const searchValue = historySearchInput.value.toLowerCase().trim();
+
+    document.querySelectorAll(".history-item").forEach((item) => {
+      const text = item.innerText.toLowerCase();
+      item.style.display = text.includes(searchValue) ? "block" : "none";
+    });
+  });
+}
+
+    document.querySelectorAll(".history-open").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    openHistoryItem(btn.dataset.id);
+  });
+});
+
+document.querySelectorAll(".history-delete").forEach((btn) => {
+  btn.addEventListener("click", async () => {
+
+    if (!confirm("Bu teklifi silmek istiyor musun?")) return;
+
+const card = btn.closest(".history-item");
+card?.classList.add("deleting");
+
+    try {
+      await deleteDoc(
+        doc(
+          db,
+          "users",
+          auth.currentUser.uid,
+          "proformas",
+          btn.dataset.id
+        )
+      );
+
+      showToast("🗑 Teklif silindi");
+      await loadHistory();
+
+    } catch (err) {
+      console.error(err);
+      showToast("Silme başarısız");
+    }
+
+  });
+});
+
+
+  } catch (err) {
+    console.error(err);
+    historyList.innerHTML = "Kayıtlar yüklenemedi.";
+  }
+}
+async function openHistoryItem(id) {
+  if (!auth.currentUser) return;
+
+  const ref = doc(
+    db,
+    "users",
+    auth.currentUser.uid,
+    "proformas",
+    id
+  );
+
+  const snap = await getDoc(ref);
+
+  if (!snap.exists()) {
+    alert("Kayıt bulunamadı");
+    return;
+  }
+
+  const saved = snap.data();
+
+  state = {
+    ...DEFAULT_STATE(),
+    ...saved.data
+  };
+
+  initDefaults();
+  render();
+activeHistoryId = id;
+  historyPanel.classList.remove("open");
+}
+
+function showToast(message) {
+  const toast = document.getElementById("toast");
+
+  toast.textContent = message;
+  toast.classList.add("show");
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2500);
+}
