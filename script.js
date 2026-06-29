@@ -1,3 +1,16 @@
+import { auth } from "./firebase.js";
+
+import {
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    window.location.href = "login.html";
+  }
+});
+
 const DEFAULT_STATE = () => ({
   currency: "₺",
   logo: "",
@@ -896,3 +909,46 @@ document.addEventListener("DOMContentLoaded", () => {
   bindClearForm();
   render();
 });
+
+const logoutBtn = document.getElementById("logoutBtn");
+
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", async () => {
+    await signOut(auth);
+    window.location.href = "login.html";
+  });
+}
+
+const clockToggle = document.getElementById("clockToggle");
+const clockPanel = document.getElementById("clockPanel");
+const clockTime = document.getElementById("clockTime");
+const clockDate = document.getElementById("clockDate");
+const clockDay = document.getElementById("clockDay");
+
+function updateClock() {
+  const now = new Date();
+
+  clockTime.innerText = now.toLocaleTimeString("tr-TR", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  });
+
+  clockDate.innerText = now.toLocaleDateString("tr-TR", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
+
+  clockDay.innerText = now.toLocaleDateString("tr-TR", {
+    weekday: "long",
+  });
+}
+
+clockToggle?.addEventListener("click", () => {
+  clockPanel.classList.toggle("active");
+  updateClock();
+});
+
+updateClock();
+setInterval(updateClock, 1000);

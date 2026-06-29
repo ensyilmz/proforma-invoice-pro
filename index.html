@@ -20,9 +20,12 @@
           <h1>Yeni Proforma</h1>
         </div>
 
+        
+
         <div class="header-actions">
           <button id="clearFormBtn" class="btn-light" type="button">Temizle</button>
           <button id="downloadPdfBtn" class="btn-dark" type="button">PDF İndir</button>
+          <button id="logoutBtn" class="btn-secondary" type="button">Çıkış Yap</button>
         </div>
       </div>
 
@@ -419,6 +422,19 @@
 
 </div>
   
-  <script src="script.js"></script>
+<div class="clock-toggle" id="clockToggle">
+  SAAT
+</div>
+
+<div class="clock-panel" id="clockPanel">
+  <div class="clock-card">
+    <div class="clock-label">Dijital Saat</div>
+    <div class="clock-time" id="clockTime">00:00:00</div>
+    <div class="clock-date" id="clockDate">29 Haziran 2026</div>
+    <div class="clock-day" id="clockDay">Pazartesi</div>
+  </div>
+</div>
+
+<script type="module" src="script.js"></script>
 </body>
 </html>
