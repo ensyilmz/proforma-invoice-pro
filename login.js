@@ -16,19 +16,17 @@ const resetBtn = document.getElementById("resetBtn");
 
 const authMessage = document.getElementById("authMessage");
 
-/* Giriş yapılmışsa direkt panele gönder */
-
-onAuthStateChanged(auth, (user) => {
-
-  if (user) {
-    window.location.href = "index.html";
-  }
-
-});
-
 /* Giriş */
 
 loginBtn.addEventListener("click", async () => {
+
+  const card = document.querySelector(".login-card");
+  const btnText = loginBtn.querySelector(".btn-text");
+
+  loginBtn.classList.add("loading");
+  card?.classList.add("loading");
+  btnText.innerHTML = "Giriş yapılıyor...";
+  authMessage.innerHTML = "";
 
   try {
 
@@ -41,7 +39,17 @@ loginBtn.addEventListener("click", async () => {
     authMessage.innerHTML =
       "Giriş başarılı, yönlendiriliyorsunuz...";
 
+document.getElementById("loginTransition")?.classList.add("active");
+
+setTimeout(() => {
+  window.location.href = "index.html";
+}, 1000);
+
   } catch (err) {
+
+    loginBtn.classList.remove("loading");
+    card?.classList.remove("loading");
+    btnText.innerHTML = "Giriş Yap";
 
     authMessage.innerHTML =
       "E-Posta veya şifre hatalı.";

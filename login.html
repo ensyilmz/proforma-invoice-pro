@@ -58,9 +58,10 @@
                 >
             </div>
 
-            <button id="loginBtn" class="btn-primary">
-                Giriş Yap
-            </button>
+<button id="loginBtn" class="btn-primary">
+  <span class="btn-text">Giriş Yap</span>
+  <span class="btn-loader"></span>
+</button>
 
             <button id="registerBtn" class="btn-secondary">
                 Hesap Oluştur
@@ -75,6 +76,17 @@
         </div>
 
     </div>
+
+    <div class="login-transition" id="loginTransition">
+  <div class="transition-card">
+    <span class="transition-kicker">PROFORMA INVOICE PRO</span>
+    <h3>Panel hazırlanıyor</h3>
+    <p>Güvenli oturum açılıyor...</p>
+    <div class="transition-bar">
+      <span></span>
+    </div>
+  </div>
+</div>
 
     <script type="module" src="login.js"></script>
 
