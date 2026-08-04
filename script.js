@@ -783,10 +783,14 @@ function bindPdf() {
 
 function bindClearForm() {
   $("#clearFormBtn").addEventListener("click", () => {
-    if (!confirm("Tüm proforma bilgileri temizlensin mi?")) return;
+    if (!confirm("Sadece ürün bilgileri temizlensin mi?")) return;
 
-    state = DEFAULT_STATE();
-    initDefaults();
+    const freshState = DEFAULT_STATE();
+
+    // Sadece ürünleri varsayılan boş hâline getirir.
+    // Logo, tarih, firma, müşteri ve diğer bilgiler korunur.
+    state.products = freshState.products;
+
     render();
     $("#zoomPreviewBtn").innerText = "Yakınlaştır";
   });
