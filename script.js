@@ -782,26 +782,28 @@ function bindPdf() {
 }
 
 function bindClearForm() {
-  $("#clearFormBtn").addEventListener("click", () => {
+  $("#clearFormBtn").addEventListener("click", (event) => {
+    event.preventDefault();
+
     if (!confirm("Sadece ürün bilgileri temizlensin mi?")) return;
 
-    const freshState = DEFAULT_STATE();
+    state.products = [
+      {
+        name: "Yeni Ürün",
+        brand: "-",
+        origin: "TR",
+        qty: 1,
+        price: 0,
+        desc: "",
+        image: "",
+      },
+    ];
 
-    // Sadece ürünleri varsayılan boş hâline getirir.
-    // Logo, tarih, firma, müşteri ve diğer bilgiler korunur.
-    state.products = freshState.products;
+    state.selectedProduct = 0;
 
     render();
     $("#zoomPreviewBtn").innerText = "Yakınlaştır";
   });
-}
-
-function render() {
-  renderProductList();
-  renderProductEditor();
-  renderOptionalFields();
-  renderPages();
-  saveState();
 }
 
 /* ==================================
