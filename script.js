@@ -792,6 +792,14 @@ function bindClearForm() {
   });
 }
 
+function render() {
+  renderProductList();
+  renderProductEditor();
+  renderOptionalFields();
+  renderPages();
+  saveState();
+}
+
 /* ==================================
    HESAPLAMA ARAÇLARI
 ================================== */
