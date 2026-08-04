@@ -429,6 +429,22 @@ function renderProductList() {
 function renderProductEditor() {
   const p = state.products[state.selectedProduct];
 
+  $("#logoMiniPreview").innerHTML = state.logo
+    ? `<img src="${state.logo}" alt="">`
+    : "Logo önizleme";
+
+  // Ürün yoksa ürün düzenleme alanını boş gösterir.
+  if (!p) {
+    $("#productName").value = "";
+    $("#productBrand").value = "";
+    $("#productOrigin").value = "";
+    $("#productQty").value = "";
+    $("#productPrice").value = "";
+    $("#productDesc").value = "";
+    $("#imagePreview").innerHTML = "Görsel önizleme";
+    return;
+  }
+
   $("#productName").value = p.name || "";
   $("#productBrand").value = p.brand || "";
   $("#productOrigin").value = p.origin || "";
@@ -439,10 +455,6 @@ function renderProductEditor() {
   $("#imagePreview").innerHTML = p.image
     ? `<img src="${p.image}" alt="">`
     : "Görsel önizleme";
-
-  $("#logoMiniPreview").innerHTML = state.logo
-    ? `<img src="${state.logo}" alt="">`
-    : "Logo önizleme";
 }
 
 function productHeadHtml() {
@@ -783,10 +795,11 @@ function bindPdf() {
 
 function bindClearForm() {
   $("#clearFormBtn").addEventListener("click", () => {
-    if (!confirm("Tüm proforma bilgileri temizlensin mi?")) return;
+    if (!confirm("Sadece ürün bilgileri temizlensin mi?")) return;
 
-    state = DEFAULT_STATE();
-    initDefaults();
+    state.products = [];
+    state.selectedProduct = 0;
+
     render();
     $("#zoomPreviewBtn").innerText = "Yakınlaştır";
   });
@@ -821,6 +834,10 @@ function calcResult(){
         calcDisplay().value = "Hata";
     }
 }
+
+window.calcAdd = calcAdd;
+window.calcClear = calcClear;
+window.calcResult = calcResult;
 
 document.addEventListener("DOMContentLoaded", () => {
 
