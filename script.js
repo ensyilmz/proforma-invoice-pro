@@ -782,25 +782,11 @@ function bindPdf() {
 }
 
 function bindClearForm() {
-  $("#clearFormBtn").addEventListener("click", (event) => {
-    event.preventDefault();
+  $("#clearFormBtn").addEventListener("click", () => {
+    if (!confirm("Tüm proforma bilgileri temizlensin mi?")) return;
 
-    if (!confirm("Sadece ürün bilgileri temizlensin mi?")) return;
-
-    state.products = [
-      {
-        name: "Yeni Ürün",
-        brand: "-",
-        origin: "TR",
-        qty: 1,
-        price: 0,
-        desc: "",
-        image: "",
-      },
-    ];
-
-    state.selectedProduct = 0;
-
+    state = DEFAULT_STATE();
+    initDefaults();
     render();
     $("#zoomPreviewBtn").innerText = "Yakınlaştır";
   });
