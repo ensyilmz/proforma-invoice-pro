@@ -3,3 +3,5 @@
 .entry-button{text-decoration:none;cursor:pointer}
 
 @media(max-width:1000px){.entry-main{gap:35px;padding:25px 30px}.entry-art{padding:25px}.entry h1{font-size:44px}.sample-paper{min-height:400px;padding:25px 20px}}@media(max-width:767px){.entry{min-height:100dvh}.entry-brand{padding:24px;font-size:17px}.entry-main{display:block;padding:18px 24px;margin:0;max-width:560px}.entry h1{font-size:42px;letter-spacing:-1.5px;margin:18px 0}.entry p{font-size:15px;line-height:1.6}.entry-kicker{font-size:10px}.entry-form{max-width:none}.entry-form input{font-size:16px;min-height:50px}.entry-form .entry-button{margin:18px 0;min-height:52px}.entry-actions{flex-wrap:wrap}.entry-actions button{min-height:44px}.entry-languages{margin:22px 0;word-spacing:14px}.entry-art{margin-top:30px;padding:25px;border-radius:16px;overflow:hidden}.sample-paper{min-height:330px;padding:22px;transform:rotate(-2deg)}.sample-bottom{margin-top:24px}.entry-footer{padding:24px;flex-direction:column;gap:10px}.entry-main{max-width:560px;margin:auto}}
+
+.entry-button>span{display:flex;align-items:center}.entry-button svg{display:block;flex:none}
