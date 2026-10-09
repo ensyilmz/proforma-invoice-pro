@@ -31,9 +31,10 @@ Bulut arşivini aktarmak için eski sürümde oturum açılarak ayrı dışa akt
 
 Dosyaları GitHub Pages deposunun köküne yerleştirin. CNAME mevcut depodaki haliyle korunmalıdır.
 Dosyaları çift tıklamak yerine HTTPS site adresinden açın; ES modülleri ve güvenli numaralandırma için güncel Chrome veya Edge kullanın.
-Firebase kuralları değiştirmeniz gerekmez. Eski firebase.js dosyası aktif sürüm tarafından kullanılmaz.
+Firebase kuralları değiştirmeniz gerekmez. Kullanılmayan firebase.js ve eski giriş betiği kaldırılmıştır; eski Firebase projesi ve verileri silinmez.
 PDF kütüphanesi CDN'den yüklenir; PDF için internet gerekir. Tasarım masaüstüne göre düzenlenmiştir.
 
 ## Doğrulama
 
 Sözdizimi, toplam/iskonto/KDV/kaparo, uzun metinlerin sayfalara bölünmesi, çok ürünlü belgeler, dil başlıkları, yerel kayıt, numara sürekliliği, firma profili ve yedek aktarımı için tarayıcı kontrolleri uygulanır.
+

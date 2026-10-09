@@ -4,8 +4,8 @@ let dbPromise;
 function open(){return dbPromise??=new Promise((resolve,reject)=>{const request=indexedDB.open(DATABASE,1);request.onupgradeneeded=()=>request.result.createObjectStore('documents',{keyPath:'path'});request.onsuccess=()=>resolve(request.result);request.onerror=()=>reject(request.error)})}
 async function transaction(mode,callback){const db=await open();return new Promise((resolve,reject)=>{const tx=db.transaction('documents',mode);let result;try{result=callback(tx.objectStore('documents'))}catch(e){reject(e);return}tx.oncomplete=()=>resolve(typeof result==='function'?result():result);tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error||Error('Kayıt iptal edildi'))})}
 export const db={};export const auth={currentUser:{uid:'local'}};
-export const onAuthStateChanged=(_,callback)=>{if(sessionStorage.getItem('pf_entered')!=='true'){location.replace('login.html');return}queueMicrotask(()=>callback(auth.currentUser))};
-export const signOut=async()=>{sessionStorage.removeItem('pf_entered');location.href='login.html'};
+export const onAuthStateChanged=(_,callback)=>queueMicrotask(()=>callback(auth.currentUser));
+export const signOut=async()=>{location.href='login.html?v=20261009-2'};
 export const collection=(_, ...segments)=>({path:segments.join('/')});
 export function doc(base,...segments){return base?.path?{path:base.path+'/'+crypto.randomUUID(),id:null}:{path:segments.join('/')}}
 function snapshot(record,path){return {id:path.split('/').at(-1),exists:()=>!!record,data:()=>record?.data}}
