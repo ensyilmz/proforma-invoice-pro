@@ -8,3 +8,5 @@ main{grid-template-columns:minmax(360px,490px) minmax(0,1fr);max-width:1760px}.p
 
 /* Each party uses full-width rows so translated labels cannot squeeze values. */
 .party-details{display:block;line-height:1.45}.party-details>.party-field{margin:2px 0;min-width:0}.party-field>b{white-space:nowrap}.party-registrationNo>span,.party-phone>span{white-space:pre-wrap;display:inline-block}.parties>div{min-width:0}
+
+.party-tax-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:4px 0}.party-tax-pair .party-field{min-width:0}.party-tax-pair .party-field>b{display:block;white-space:normal;line-height:1.3}.party-tax-pair .party-field>span{display:block;margin-top:2px;white-space:pre-wrap;overflow-wrap:anywhere}
