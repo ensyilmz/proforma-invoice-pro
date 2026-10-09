@@ -1,40 +1,45 @@
-# Proforma Studio v2
+# Proforma Studio v3
 
-Masaüstü kullanım için yenilenmiş proforma çalışma alanı.
+Masaüstü teklif çalışma alanı. Önceki giriş tasarımı korunur; e-posta/şifre girişi, kayıt ve şifre sıfırlama Firebase ile çalışır.
 
-## Kullanım
+## Hesap ve kayıtlar
 
-Giriş Yap düğmesi doğrudan çalışma alanını açar. E-posta, şifre ve üyelik yoktur.
-Yeni Oluştur yeni bir PF-100001 biçiminde numara ayırır. İlk numara 100001'dir.
-Kaydet aynı açık teklif kaydını günceller. Geçmiş Teklifler > Kopyala yeni numara oluşturur.
-Firma Ayarları yeni tekliflere otomatik uygulanır; eski teklifler değişmez.
-Belge dili Türkçe/İngilizce/Almanca/Hollandaca olabilir. Varsayılan para birimleri TRY/USD/EUR/EUR'dur. Para birimi değişikliği kur dönüşümü yapmaz.
-Standart başlıklar ve nakliye ifadeleri çevrilir; özel ürün/şart metinlerini kullanıcı girer.
-KDV belge dilinden bağımsız seçilir. Hesaplamada ürünlerin iskonto sonrası bedeline uygulanır; ek gider ve nakliye ayrıca eklenir.
-Kaparo teklif toplamını değiştirmez, kalan ödeme satırından düşülür.
+Mevcut Firebase projesi kullanılır. Aynı e-posta/şifreyle başka bilgisayarda giriş yapıldığında kaydedilmiş teklifler, firma ayarları ve standart maddeler yüklenir.
+Kaydet düğmesi açık teklifi hesabınıza kaydeder; düzenlemeler aynı kaydı günceller. Kaydedilmemiş taslak yalnız bu tarayıcıda hesabınıza özel saklanır.
+Eski Firebase arşivi korunur. Eski serbest metinler açıldığında ayrı alanlara aktarılır; tanınmayan satırlar Ek bilgi alanında korunur. Eski genel bilgilendirme kaybolmaz, ek bir madde olarak korunur.
+Hesapsız sürümdeki tarayıcı kayıtları girişte onayınızla hesabınıza aktarılabilir. Geçmiş Teklifler > Tarayıcı Kayıtlarını Aktar ile sonradan da aktarabilirsiniz.
+Geçmiş Teklifler > Yedek İndir/Yükle JSON yedekleme sağlar. İçe aktarmada aynı kayıt kimliği varsa birleştirme yapılır; sayaç geriye alınmaz.
 
-## Kayıt ve yedekleme
+## Teklif numarası
 
-Teklif arşivi ve firma ayarları IndexedDB'de, açık taslak localStorage'da saklanır.
-Veriler bu tarayıcı ve site adresine aittir. Gizli pencere, başka bilgisayar veya farklı alan adı ayrı kayıt alanıdır.
-Sayaç aynı tarayıcıdaki sekmeler arasında kilitlenir. Hesapsız sürümde farklı bilgisayarların sayaçları birbirine bağlı değildir.
-Geçmiş Teklifler > Yedek İndir ile JSON yedeği alın. Yedek Yükle ile başka tarayıcıya taşıyabilirsiniz. Aynı kayıt kimliği varsa yedekteki kayıt uygulanır; sayaç geriye alınmaz.
-Tarayıcı verilerini temizlemeden önce yedek alın. Düzenli yedek önerilir.
+Yeni Oluştur ve arşivde Kopyala hesap bazlı PF-100001 biçiminde yeni numara ayırır. Sayaç Firebase işleminde güvenli şekilde artırılır; mevcut PF numaralarının üstünden devam eder.
+Kaydet, yenileme ve arşiv açma yeni numara üretmez. Numara araç çubuğunda ve A4 sağ üstünde görünür. Eski teklifler yeniden numaralandırılmaz.
 
-## Eski sürüm
+## Firma ve taraf bilgileri
 
-Eski Firebase teklifleri silinmez. Bu sürüm onlara erişmez ve Firebase ayarı gerektirmez.
-Eski tarayıcı taslağı aynı site adresinde varsa ilk açılışta isteğe bağlı içe aktarılır. Satıcı, logo ve banka bilgileri firma ayarlarına aktarılır.
-Bulut arşivini aktarmak için eski sürümde oturum açılarak ayrı dışa aktarma gerekir. Git geçmişindeki eski sürüm korunur.
+Firma Ayarları satıcı, logo, banka ve iletişim bilgilerini saklar. Yeni teklifler bunları otomatik kullanır. Açık teklife uygulama seçeneği yeni taslaklarda başlangıçta açıktır; arşivden açılmış teklifler için kullanıcı seçer.
+Logo yükleme sırasında kaydet devre dışıdır; hazır olduğunda önizleme görünür. Aktif teklifin logosu ayrıca değiştirilebilir.
+Alıcı/satıcı alanları: ünvan, adres, ülke, numara türü ve numarası, vergi dairesi, ilgili kişi, telefon, e-posta, teslimat adresi ve ek bilgi. Boş alanlar basılmaz. Başlıklar belge diline göre çevrilir; girilen içerik kullanıcı tarafından yazılır.
 
-## Yayınlama
+## Dil ve genel bilgilendirme
 
-Dosyaları GitHub Pages deposunun köküne yerleştirin. CNAME mevcut depodaki haliyle korunmalıdır.
-Dosyaları çift tıklamak yerine HTTPS site adresinden açın; ES modülleri ve güvenli numaralandırma için güncel Chrome veya Edge kullanın.
-Firebase kuralları değiştirmeniz gerekmez. Kullanılmayan firebase.js ve eski giriş betiği kaldırılmıştır; eski Firebase projesi ve verileri silinmez.
-PDF kütüphanesi CDN'den yüklenir; PDF için internet gerekir. Tasarım masaüstüne göre düzenlenmiştir.
+Türkçe, İngilizce, Almanca ve Hollandaca desteklenir. Dil değişiminde para birimi varsayılanı TRY/USD/EUR/EUR seçilir; kullanıcı değiştirebilir. Tutarlar kurla çevrilmez.
+Yedi standart madde dört dilde hazırdır. İlk maddede {days} alanı ayrı Üretim ve teslimat süresi (iş günü) girdisiyle doldurulur.
++ Madde Ekle ile madde eklenir. Maddelerin dil sekmeleri teklifin dilini değiştirmez. Özel maddelerin çevirisini kullanıcı girer; seçili belge dilinde eksik metin varsa kayıt/PDF uyarır.
+Maddeleri Varsayılan Kaydet, düzenlenmiş maddeleri ve varsayılan süreyi hesabınıza saklar. Yeni teklifler bunları kullanır. Standartları Getir yalnız aktif teklifin maddelerini sıfırlar.
+5. standart madde KDV ve nakliye hariçtir. Teklif seçimleri bununla çelişirse kullanıcıya metni düzenlemesi için uyarı gösterilir. Yeni tekliflerde KDV başlangıçta kapalıdır.
 
-## Doğrulama
+## Fiyat ve çıktı
 
-Sözdizimi, toplam/iskonto/KDV/kaparo, uzun metinlerin sayfalara bölünmesi, çok ürünlü belgeler, dil başlıkları, yerel kayıt, numara sürekliliği, firma profili ve yedek aktarımı için tarayıcı kontrolleri uygulanır.
+İskonto, kaparo ve ek giderin etkinleştirme seçeneği tutarın yanındadır. Pozitif tutar yazmak alanı otomatik etkinleştirir. Yüzde iskonto 0–100 arasındadır.
+KDV ürünlerin iskonto sonrası bedeline uygulanır. Ek gider/nakliye ayrıca eklenir. Kaparo teklif toplamından ayrı, kalan ödemeyi azaltan satır olarak görünür.
+Nakliye: alıcıya ait, dahil, ayrıca bildirilecek veya ayrı ücret. Boş tutar sıfır fiyat gibi basılmaz.
+Banka başlıkları çevrilir ve kalındır. Tüm IBAN'lar üç sütunda, tek para birimi bir sütunda gösterilir.
+A4 ekran genişliğine göre ölçeklenir; PDF gerçek A4 ölçüsünde kalır. Uzun ürün açıklamaları ve maddeler devam sayfalarına bölünür.
+Görseller küçültülerek saklanır. Firestore belge boyutunu aşan teklif kaydedilmez; küçültme önerisi gösterilir.
 
+## Teknik not
+
+Kaydedilen teklifler mevcut users/{uid}/proformas yolunu kullanır. Firma/sayaç meta verileri aynı kullanıcı koleksiyonunda _studio_company ve _studio_counter belgeleridir; arşiv listesi bunları göstermez. Mevcut sahiplik tabanlı Firestore izinleri korunur.
+Bulut işlemleri internet bağlantısı gerektirir. Firebase veya erişim hatası işlem mesajında gösterilir. Bu sürüm anonim Firebase verisi erişimi açmaz.
+Firebase ve PDF kitaplıkları CDN'den yüklenir. GitHub Pages kökünden yayınlanır; CNAME korunur. Favicon artık assets/favicon.svg dosyasıdır.
