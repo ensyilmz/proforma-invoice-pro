@@ -1,7 +1,7 @@
-import {auth,db} from './firebase.js?v=20261009-12';
+import {auth,db} from './firebase.js?v=20261009-13';
 import {onAuthStateChanged,signOut} from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js';
 import {doc as firestoreDoc,collection,getDoc,setDoc,deleteDoc,getDocs as firestoreGetDocs,runTransaction,serverTimestamp,writeBatch} from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js';
-import {exportBackup as exportLocalBackup} from './local-storage.js?v=20261009-12';
+import {exportBackup as exportLocalBackup} from './local-storage.js?v=20261009-13';
 export {auth,db,onAuthStateChanged,signOut,collection,getDoc,setDoc,deleteDoc,runTransaction,serverTimestamp};
 // Keep metadata inside the existing per-user proformas path so existing owner rules remain applicable.
 export function doc(base,...segments){if(segments[2]==='settings')return firestoreDoc(base,'users',segments[1],'proformas','_studio_'+segments[3]);return firestoreDoc(base,...segments)}
